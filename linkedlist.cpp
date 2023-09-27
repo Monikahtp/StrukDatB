@@ -62,6 +62,42 @@ void tampilkanMahasiswa(Mahasiswa* head)
     }
 }
 
+// Fungsi untuk menghapus data mahasiswa dari linked list berdasarkan NRP
+Mahasiswa* hapusMahasiswa(Mahasiswa* head, string nrp)
+{
+    if (head == nullptr)
+    {
+        cout << "Linked list kosong." << endl;
+        return head;
+    }
+
+    if (head->nrp == nrp)
+    {
+        Mahasiswa* temp = head;
+        head = head->next;
+        delete temp;
+        cout << "Data mahasiswa dengan NRP " << nrp << " berhasil dihapus." << endl;
+        return head;
+    }
+
+    Mahasiswa* current = head;
+    while (current->next != nullptr)
+    {
+        if (current->next->nrp == nrp)
+        {
+            Mahasiswa* temp = current->next;
+            current->next = current->next->next;
+            delete temp;
+            cout << "Data mahasiswa dengan NRP " << nrp << " berhasil dihapus." << endl;
+            return head;
+        }
+        current = current->next;
+    }
+
+    cout << "Data mahasiswa dengan NRP " << nrp << " tidak ditemukan." << endl;
+    return head;
+}
+
 int main()
 {
     Mahasiswa* head = nullptr;
@@ -74,8 +110,9 @@ int main()
         cout << "\nMenu: " << endl;
         cout << "1. Menambah Data" << endl;
         cout << "2. Menampilkan Data" << endl;
-        cout << "3. Keluar" << endl;
-        cout << "Pilih menu (1/2/3): ";
+        cout << "3. Hapus Data Mahasiswa" << endl;
+        cout << "4. Keluar" << endl; // Ubah opsi menu ini
+        cout << "Pilih menu (1/2/3/4): ";
         cin >> input_user;
 
         if (input_user == 1)
@@ -110,6 +147,22 @@ int main()
             tampilkanMahasiswa(head);
         }
         else if (input_user == 3)
+        {
+            if (jumlah_data > 0)
+            {
+                string nrp;
+                cout << "Masukkan NRP mahasiswa yang ingin dihapus: ";
+                cin >> nrp;
+
+                head = hapusMahasiswa(head, nrp);
+                jumlah_data--;
+            }
+            else
+            {
+                cout << "Tidak ada data mahasiswa untuk dihapus." << endl;
+            }
+        }
+        else if (input_user == 4)
         {
             break; // Keluar dari program
         }
