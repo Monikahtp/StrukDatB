@@ -1,193 +1,124 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
-using namespace std;
-
-// Mendefinisikan struct 'mahasiswa'
 struct Mahasiswa
 {
-    string nama;
-    string nrp;
-    int umur;
-    bool jenis_kelamin;
-    Mahasiswa* next;
+   std::string nama;
+   int usia;
+   std::string alamat;
+   int nrp;
 };
 
-// Fungsi untuk menambahkan data mahasiswa ke linked list
-Mahasiswa* tambahMahasiswa(Mahasiswa* head, string nama, string nrp, int umur, bool jenis_kelamin)
-{
-    Mahasiswa* newNode = new Mahasiswa;
-    newNode->nama = nama;
-    newNode->nrp = nrp;
-    newNode->umur = umur;
-    newNode->jenis_kelamin = jenis_kelamin;
-    newNode->next = nullptr;
-
-    if (head == nullptr)
+//menampilkan mahasiswa
+void menampilkanDataMhs(const std::vector<Mahasiswa>& data) {
+    if (data.empty())
     {
-        return newNode;
-    }
-    else
-    {
-        Mahasiswa* current = head;
-        while (current->next != nullptr)
-        {
-            current = current->next;
-        }
-        current->next = newNode;
-        return head;
-    }
-}
-
-// Fungsi untuk menampilkan data mahasiswa dari linked list
-void tampilkanMahasiswa(Mahasiswa* head)
-{
-    if (head == nullptr)
-    {
-        cout << "Linked list kosong." << endl;
+        std::cout << "Tidak ada data." << std::endl;
         return;
     }
 
-    Mahasiswa* current = head;
-    int index = 1;
-
-    while (current != nullptr)
+    std::cout << "Data yang tersimpan:" << std::endl;
+    for (const Mahasiswa& d : data) 
     {
-        cout << "Data ke-" << index << ":" << endl;
-        cout << "Nama: " << current->nama << endl;
-        cout << "NRP: " << current->nrp << endl;
-        cout << "Umur: " << current->umur << endl;
-        cout << "Jenis Kelamin: " << (current->jenis_kelamin ? "Laki-laki" : "Perempuan") << endl;
-        current = current->next;
-        index++;
+        std::cout << "Nama: " << d.nama << ", Usia: " << d.usia << ", Alamat: " << d.alamat << ", Nrp: " << d.nrp <<std::endl;
     }
-}
-
-// Fungsi untuk menghapus data mahasiswa dari linked list
-Mahasiswa* hapusMahasiswa(Mahasiswa* head, int indeks_hapus)
-{
-    if (head == nullptr)
-    {
-        cout << "Linked list kosong." << endl;
-        return nullptr;
-    }
-
-    if (indeks_hapus == 1)
-    {
-        Mahasiswa* temp = head;
-        head = head->next;
-        delete temp;
-        cout << "Data mahasiswa telah dihapus." << endl;
-    }
-    else
-    {
-        Mahasiswa* prev = nullptr;
-        Mahasiswa* current = head;
-        int index = 1;
-
-        while (index < indeks_hapus && current != nullptr)
-        {
-            prev = current;
-            current = current->next;
-            index++;
-        }
-
-        if (current != nullptr)
-        {
-            prev->next = current->next;
-            delete current;
-            cout << "Data mahasiswa telah dihapus." << endl;
-        }
-        else
-        {
-            cout << "Nomor data tidak valid." << endl;
-        }
-    }
-
-    return head;
 }
 
 int main()
 {
-    Mahasiswa* head = nullptr;
-    int jumlah_data = 0;
+    std::vector<Mahasiswa> data;
 
-    while (true)
-    {
-        int input_user;
+    while (true) {
+        std::cout << "\nMenu:\n";
+        std::cout << "1. Tampilkan data\n";
+        std::cout << "2. Tambah data baru\n";
+        std::cout << "3. Hapus data\n";
+        std::cout << "4. Ubah data\n";
+        std::cout << "5. Keluar\n";
+        std::cout << "Nomor pilihan anda: ";
 
-        cout << "\nMenu: " << endl;
-        cout << "1. Menambah Data" << endl;
-        cout << "2. Menampilkan Data" << endl;
-        cout << "3. Menghapus Data" << endl;
-        cout << "4. Keluar" << endl;
-        cout << "Pilih menu (1/2/3/4): ";
-        cin >> input_user;
+        int nomor;
+        std::cin >> nomor;
+        std::cin.ignore();
 
-        if (input_user == 1)
-        {
-            if (jumlah_data < 10)
+        switch (nomor) {
+            case 1:
+                menampilkanDataMhs(data);
+                break;
+            
+            case 2:
+                {
+                    Mahasiswa dataBaru;
+                    std::cout << "Masukkan Nama: ";
+                    std::getline(std::cin, dataBaru.nama);
+                    std::cout << "Masukkan Usia: ";
+                    std::cin >> dataBaru.usia;
+                    std::cin.ignore();
+                    std::cout << "Masukkan Alamat: ";
+                    std::getline(std::cin, dataBaru.alamat);
+                    std::cout << "Masukkan Nrp: ";
+                    std::cin >> dataBaru.nrp;
+                data.push_back(dataBaru);
+                std::cout << "Data telah ditambahkan.\n";
+                }
+                break;
+            
+            case 3:
+                {
+                    if (data.empty()) {
+                        std::cout << "Data kosong, tidak ada yang bisa dihapus.\n";
+                    } else {
+                        int indeks;
+                        std::cout << "Masukkan indeks data yang akan dihapus: ";
+                        std::cin >> indeks;
+
+                        if (indeks >= 0 && indeks < data.size()) {
+                            data.erase(data.begin() + indeks);
+                            std::cout << "Data telah dihapus.\n";
+                        } else {
+                            std::cout << "Indeks tidak valid.\n";
+                        }
+                    }
+                }
+                break;
+
+            case 4:
             {
-                string nama, nrp;
-                int umur;
-                bool jenis_kelamin;
+                if (data.empty()) {
+                        std::cout << "Data kosong, tidak ada yang bisa diubah.\n";
+                    } else {
+                        int indeks;
+                        std::cout << "Masukkan indeks data yang akan diubah: ";
+                        std::cin >> indeks;
 
-                cout << "Masukkan data mahasiswa ke-" << jumlah_data + 1 << ":" << endl;
-                cout << "Nama: ";
-                cin >> nama;
-                cout << "NRP: ";
-                cin >> nrp;
-                cout << "Umur: ";
-                cin >> umur;
-                cout << "Jenis Kelamin (0: Perempuan, 1: Laki-laki): ";
-                cin >> jenis_kelamin;
+                        if (indeks >= 0 && indeks < data.size()) {
+                            Mahasiswa& dataBaru = data[indeks];
+                            std::cout << "Masukkan Nama: ";
+                            std::cin.ignore();
+                            std::getline(std::cin, dataBaru.nama);
+                            std::cout << "Masukkan Usia: ";
+                            std::cin >> dataBaru.usia;
+                            std::cin.ignore();
+                            std::cout << "Masukkan Alamat: ";
+                            std::getline(std::cin, dataBaru.alamat);
+                            std::cout << "Masukkan Nrp: ";
+                            std::cin >> dataBaru.nrp;
+                            std::cout << "Data telah diubah.\n"; 
+                        } else {
+                            std::cout << "Indeks tidak valid.\n";
+                        }   
+                    }
+                }
+                break;
 
-                head = tambahMahasiswa(head, nama, nrp, umur, jenis_kelamin);
-                jumlah_data++;
-            }
-            else
-            {
-                cout << "Maaf, Anda sudah mencapai batas maksimum (10 data mahasiswa)." << endl;
-            }
+            case  5:
+                std::cout << "Program selesai.\n";
+                return 0;
+            
+            default:
+                std::cout << "Pilihan tidak valid.\n";         
+                }
         }
-        else if (input_user == 2)
-        {
-            cout << "\nData Mahasiswa:" << endl;
-            tampilkanMahasiswa(head);
-        }
-        else if (input_user == 3)
-        {
-            if (jumlah_data > 0)
-            {
-                int indeks_hapus;
-                cout << "Masukkan nomor data mahasiswa yang ingin dihapus (1-" << jumlah_data << "): ";
-                cin >> indeks_hapus;
-                head = hapusMahasiswa(head, indeks_hapus);
-                jumlah_data--;
-            }
-            else
-            {
-                cout << "Tidak ada data dalam list yang bisa dihapus." << endl;
-            }
-        }
-        else if (input_user == 4)
-        {
-            break;
-        }
-        else
-        {
-            cout << "Menu tidak valid. Silakan masukkan pilihan yang valid." << endl;
-        }
-    }
-
-    // Membebaskan memori setelah selesai menggunakan linked list
-    while (head != nullptr)
-    {
-        Mahasiswa* temp = head;
-        head = head->next;
-        delete temp;
-    }
-
     return 0;
 }
-

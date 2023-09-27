@@ -12,7 +12,7 @@ struct Mahasiswa
     Mahasiswa* next; 
 };
 
-// Fungsi untuk menambahkan data mahasiswa ke linked list
+// Menambahkan data mahasiswa ke linked list
 Mahasiswa* tambahMahasiswa(Mahasiswa* head, string nama, string nrp, int umur, bool jenis_kelamin)
 {
     Mahasiswa* newNode = new Mahasiswa;
@@ -38,7 +38,7 @@ Mahasiswa* tambahMahasiswa(Mahasiswa* head, string nama, string nrp, int umur, b
     }
 }
 
-// Fungsi untuk menampilkan data mahasiswa dari linked list
+// Menampilkan data mahasiswa dari linked list
 void tampilkanMahasiswa(Mahasiswa* head)
 {
     if (head == nullptr)
@@ -62,7 +62,7 @@ void tampilkanMahasiswa(Mahasiswa* head)
     }
 }
 
-// Fungsi untuk menghapus data mahasiswa dari linked list berdasarkan NRP
+// Menghapus data mahasiswa dari linked list berdasarkan NRP
 Mahasiswa* hapusMahasiswa(Mahasiswa* head, string nrp)
 {
     if (head == nullptr)
@@ -111,7 +111,7 @@ int main()
         cout << "1. Menambah Data" << endl;
         cout << "2. Menampilkan Data" << endl;
         cout << "3. Hapus Data Mahasiswa" << endl;
-        cout << "4. Keluar" << endl; // Ubah opsi menu ini
+        cout << "4. Keluar" << endl;
         cout << "Pilih menu (1/2/3/4): ";
         cin >> input_user;
 
@@ -164,7 +164,7 @@ int main()
         }
         else if (input_user == 4)
         {
-            break; // Keluar dari program
+            break; // Keluar program
         }
         else
         {
@@ -172,7 +172,7 @@ int main()
         }
     }
 
-    // Bebaskan memori setelah selesai menggunakan linked list
+    // Membebaskan memori
     while (head != nullptr)
     {
         Mahasiswa* temp = head;
